@@ -47,7 +47,7 @@ carts:register_rail("carts:brakerail", {
 		"carts_rail_t_junction_brk.png", "carts_rail_crossing_brk.png"
 	},
 	groups = carts:get_rail_groups(),
-}, {acceleration = -10000})
+}, {stop = true})
 
 minetest.register_craft({
 	output = "carts:brakerail 18",

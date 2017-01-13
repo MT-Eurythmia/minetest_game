@@ -268,20 +268,26 @@ local function rail_on_step(self, dtime)
 		railparams = get_railparams(pos)
 
 		-- no need to check for railparams == nil since we always make it exist.
-		local speed_mod = railparams.acceleration
-		if speed_mod and speed_mod ~= 0 then
-			-- Try to make it similar to the original carts mod
-			acc = acc + speed_mod
+		local stop = railparams.stop
+		if stop then
+			new_acc = vector.new()
+			self.object:setvelocity(vector.new())
 		else
-			-- Handbrake or coast
-			if ctrl and ctrl.down then
-				acc = acc - 3
+			local speed_mod = railparams.acceleration
+			if speed_mod and speed_mod ~= 0 then
+				-- Try to make it similar to the original carts mod
+				acc = acc + speed_mod
 			else
-				acc = acc - 0.4
+				-- Handbrake or coast
+				if ctrl and ctrl.down then
+					acc = acc - 3
+				else
+					acc = acc - 0.4
+				end
 			end
-		end
 
-		new_acc = vector.multiply(dir, acc)
+			new_acc = vector.multiply(dir, acc)
+		end
 	end
 
 	-- Limits
