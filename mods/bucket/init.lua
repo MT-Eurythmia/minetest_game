@@ -96,12 +96,17 @@ function bucket.register_liquid(source, flowing, itemname, inventory_image, name
 					end
 				end
 
-				if check_protection(lpos, user
-						and user:get_player_name()
-						or "", "place "..source) then
+				local pname = user and user:get_player_name() or ""
+				if check_protection(lpos, pname, "place "..source) then
 					return
 				end
 
+				minetest.log("action", (pname ~= "" and pname or "A mod")
+					.." placed liquid "
+					..source
+					.." at position "
+					..minetest.pos_to_string(lpos)
+					.." with a bucket")
 				minetest.set_node(lpos, {name = source})
 				return ItemStack("bucket:bucket_empty")
 			end
@@ -212,4 +217,3 @@ minetest.register_craft({
 	burntime = 60,
 	replacements = {{"bucket:bucket_lava", "bucket:bucket_empty"}},
 })
-
